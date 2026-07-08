@@ -15,7 +15,7 @@ open class Room(val name: String) {
 open class TownSquare : Room("The town square"){
     private var bellSound = "GWONG"
     override val status = "Bustling"
-    // test
+    // test hello
     override fun enterRoom(){
         narrate("The villagers rally and cheer as the hero enters")
     }
