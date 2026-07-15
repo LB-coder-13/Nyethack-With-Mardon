@@ -14,6 +14,7 @@ fun main(){
     Game.play()
 }
 
+
 private fun promptHeroName(): String{
     narrate("Hero came to the town. What is their name?")
 
@@ -23,13 +24,15 @@ private fun promptHeroName(): String{
 
 object Game{
     private val worldMap = listOf(
-        listOf(TownSquare(), Tavern(), Room("Back Room")),
+        listOf(TownSquare(), Tavern(), BackRoom()),
         listOf(MonsterRoom("A Long Corridor"), Room("Generic Room")),
-        listOf(MonsterRoom("The Dungeon"))
+        listOf(Dungeon())
     )
 
     private var currentRoom: Room = worldMap[0][0]
     private var currentPosition = Coordinate(0,0)
+    private var gameOn = true
+    private var kills = 0
 
     init{
         narrate("Welcome, adventurer")
@@ -38,7 +41,7 @@ object Game{
     }
 
     fun play(){
-        while(true){
+        while(gameOn){
             narrate("${player.name}, ${player.title}, is in ${currentRoom.description()}")
             currentRoom.enterRoom()
 
@@ -69,6 +72,7 @@ object Game{
         while (player.healthPoints > 0 && currentMonster.healthPoints > 0) {
             player.attack(currentMonster)
             if (currentMonster.healthPoints > 0) {
+                Thread.sleep(1000)
                 currentMonster.attack(player)
             }
             Thread.sleep(1000)
@@ -79,6 +83,7 @@ object Game{
         } else {
             narrate("${currentMonster.name} has been defeated")
             monsterRoom.monster = null
+            kills++
         }
     }
 
@@ -95,8 +100,124 @@ object Game{
                 else
                     narrate("I don't know what direction that is")
             }
+            "stats" ->{
+                narrate("---- Player Stats ----")
+                narrate("HP: ${player.healthPoints}")
+                narrate("Kills: $kills")
+            }
             "fight" -> fight()
-            else -> narrate("I'm not sure what you're trying to do");
+            "cast" ->{
+                when (argument){
+                    "fireball" -> player.castFireball()
+                    else -> narrate("I don't know how to cast that")
+                }
+            }
+            "prophesize" -> player.prophesize()
+            "exit", "quit" -> {
+                narrate("he hero decides leave this town, towards his next destination.")
+                print("Exiting ")
+                Thread.sleep(200)
+                print("<10%>")// print("< =")
+                Thread.sleep(700)
+                print("\b\b\b\b\b<23%>")// print("===")
+                Thread.sleep(1000)
+                print("\b\b\b\b\b<45%>")// print("=")
+                Thread.sleep(400)
+                print("\b\b\b\b\b<57%>")// print("==")
+                Thread.sleep(500)
+                print("\b\b\b\b\b<62%>")// print("=")
+                Thread.sleep(400)
+                print("\b\b\b\b\b<68%>")// print("=")
+                Thread.sleep(1200)
+                print("\b\b\b\b\b<80%>")// print("= >\n")
+                Thread.sleep(800)
+                print("\b\b\b\b\b<85%>")// print("= >\n")
+                Thread.sleep(800)
+                print("\b\b\b\b\b<92%>")// print("= >\n")
+                Thread.sleep(200)
+                print("\b\b\b\b\b<94%>")// print("= >\n")
+                Thread.sleep(150)
+                print("\b\b\b\b\b<95%>")// print("= >\n")
+                Thread.sleep(150)
+                print("\b\b\b\b\b<97%>")// print("= >\n")
+                Thread.sleep(100)
+                print("\b\b\b\b\b<100%>")// print("= >\n")
+                Thread.sleep(1200)
+                gameOn = false
+            }
+            "explore" -> {
+                if (currentRoom.name == "The Dungeon"){
+                    Dungeon.explore()
+                } else {
+                    narrate("There is nothing to explore here")
+                }
+            }
+            "map" ->{
+                when (currentPosition){
+                    Coordinate(0, 0) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦      X      \\     +--+   +  ¦\n" +
+                                "¦            ¦          /     ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦             /            ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    Coordinate(1, 0) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦             \\ X   +--+   +  ¦\n" +
+                                "¦            ¦          /     ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦             /            ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    Coordinate(2, 0) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦             \\     +--+   +  ¦\n" +
+                                "¦            ¦          / X   ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦             /            ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    Coordinate(0, 1) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦             \\     +--+   +  ¦\n" +
+                                "¦            ¦          /     ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦  X          /            ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    Coordinate(1, 1) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦             \\     +--+   +  ¦\n" +
+                                "¦            ¦          /     ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦             /       X    ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    else -> {
+                        println("You are lost...")
+                    }
+                }
+            }
+            "ring" -> {
+                if (currentRoom.name == "The Town Square"){
+                    TownSquare.ringBell()
+                } else {
+                    narrate("There is no bell to ring in here.")
+                }
+            }
+            "mood" -> changeNarratorMood()
+            else -> narrate("I'm not sure what you're trying to do")
         }
     }
 }
