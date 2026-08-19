@@ -14,7 +14,7 @@ fun main(){
 
     val lootBoxOne: LootBox<Fedora> = LootBox(Fedora("a generic-looking fedora", 15))
     val lootBoxTwo: LootBox<Gemstones> = LootBox(Gemstones(150))
-    //
+    //fdd
 
     repeat(2){
         narrate(
