@@ -11,6 +11,8 @@ fun main(){
     narrate("Welcome to NyetHack!")
     val playerName = promptHeroName()
     player = Player(playerName)
+
+    val lootBoxOne: LootBox<Fedora> = LootBox(Fedora("a generic-looking fedora", 15))
     Game.play()
 }
 
