@@ -14,7 +14,6 @@ fun main(){
 
     val lootBoxOne: LootBox<Fedora> = LootBox(Fedora("a generic-looking fedora", 15))
     val lootBoxTwo: LootBox<Gemstones> = LootBox(Gemstones(150))
-    //fdd
 
     repeat(2){
         narrate(
@@ -295,7 +294,14 @@ fun printIsSourceOfBlessings(any: Any) {
 // ОБОБЩЕНИЯ
 /*
 Обобщённый тип - класс, конструктор которого принимает входные данные любого типа.
+ИмяСтруктуры<T: ограничениеСуперклассом>
+чтобы указать несколько ограничений мы используем where: class DropOffBox<T> where T: Loot, T: Sellable{...}
 
+var fedoraBox: LootBox<Fedora> = LootBox(Fedora("a generic-looking fedora", 15))
+    var lootBox: LootBox<Loot> = LootBox(Gemstones(150))
+    lootBox = fedoraBox
+НЕДОПУСТИМО ИЗЗА ВОЗМОЖНОЙ ОШИБКА КЛАССОВ, НО ЕСТЬ РЕШЕНИЕ с помощью out (тогда атрибут нельзя будет изменить, доступен
+только для чтения)
  */
 
 // перегрузка операторов

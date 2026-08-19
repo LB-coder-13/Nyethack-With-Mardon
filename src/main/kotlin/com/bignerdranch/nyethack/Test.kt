@@ -1,17 +1,16 @@
-open class Weapon(val name: String, val type: String)
+import com.bignerdranch.nyethack.Fedora
+import com.bignerdranch.nyethack.Gemstones
+import com.bignerdranch.nyethack.Loot
+import com.bignerdranch.nyethack.LootBox
 
-@JvmInline
-value class Kilometers(private val kilometers: Double){
-    operator fun plus(other: Kilometers) = Kilometers(kilometers+other.kilometers)
-}
-
-@JvmInline
-value class Miles(private val miles: Double){
-    operator fun plus(other: Miles) = Miles(miles+other.miles)
-
-    fun toKilommeters() = miles*1.609
-}
 
 fun main(){
-    val k: Kilometers = Kilometers(12.0);
+    var fedoraBox: LootBox<Fedora> = LootBox(Fedora("a generic-looking fedora", 15))
+    var lootBox: LootBox<Loot> = LootBox(Gemstones(150))
+    lootBox = fedoraBox
+
+
+    var fedora = Fedora("Hello", 12)
+    var loot: Loot = Gemstones( 43)
+    loot = fedora
 }
