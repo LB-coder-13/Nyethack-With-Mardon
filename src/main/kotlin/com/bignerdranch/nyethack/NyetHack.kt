@@ -280,6 +280,12 @@ fun printIsSourceOfBlessings(any: Any) {
     println("$any is a source of blessings: $isSourceOfBlessings")
 }
 
+// ОБОБЩЕНИЯ
+/*
+Обобщённый тип - класс, конструктор которого принимает входные данные любого типа.
+
+ */
+
 // перегрузка операторов
 /*
 + plus
