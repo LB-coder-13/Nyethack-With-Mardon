@@ -42,7 +42,6 @@ object Game{
     private var gameOn = true
     private var currentRoom: Room = worldMap[0][0]
     private var currentPosition = Coordinate(0,0)
-    private var gameOn = true
     private var kills = 0
 
     init{
