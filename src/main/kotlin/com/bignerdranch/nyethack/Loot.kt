@@ -9,7 +9,7 @@ class LootBox<out T: Loot>(val contents: T) {
     }
 }
 
-class DropOffBox<T> where T: Loot, T: Sellable{
+class DropOffBox<in T> where T: Loot, T: Sellable{
     fun sellLoot(sellableLoot: T): Int{
         return (sellableLoot.value * 0.7).toInt()
     }
@@ -23,10 +23,17 @@ interface Sellable {
     val value: Int
 }
 
+abstract class Hat : Loot(), Sellable
+
+class Fez(
+    override val name: String,
+    override val value: Int
+) : Hat()
+
 class Fedora(
     override val name: String,
     override val value: Int
-) : Loot(), Sellable
+) : Hat()
 
 class Gemstones(
     override val value: Int

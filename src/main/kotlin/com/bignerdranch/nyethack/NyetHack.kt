@@ -39,7 +39,7 @@ object Game{
         listOf(MonsterRoom("A Long Corridor"), Room("Generic Room")),
         listOf(Dungeon())
     )
-
+    private var gameOn = true
     private var currentRoom: Room = worldMap[0][0]
     private var currentPosition = Coordinate(0,0)
     private var gameOn = true
@@ -116,6 +116,105 @@ object Game{
                 narrate("HP: ${player.healthPoints}")
                 narrate("Kills: $kills")
             }
+            "cast" ->{
+                when (argument){
+                    "fireball" -> player.castFireball()
+                    else -> narrate("I don't know how to cast that")
+                }
+            }
+            "prophesize" -> player.prophesize()
+            "exit", "quit" -> {
+                narrate("he hero decides leave this town, towards his next destination.")
+                print("Exiting ")
+                Thread.sleep(200)
+                print("< =")
+                Thread.sleep(700)
+                print("===")
+                Thread.sleep(1000)
+                print("=")
+                Thread.sleep(400)
+                print("==")
+                Thread.sleep(500)
+                print("=")
+                Thread.sleep(400)
+                print("=")
+                Thread.sleep(1000)
+                print("= >\n")
+                Thread.sleep(800)
+                gameOn = false
+            }
+            "explore" -> {
+                if (currentRoom.name == "The Dungeon"){
+                    Dungeon.explore()
+                } else {
+                    narrate("There is nothing to explore here")
+                }
+            }
+            "map" ->{
+                when (currentPosition){
+                    Coordinate(0, 0) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦      X      \\     +--+   +  ¦\n" +
+                                "¦            ¦          /     ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦             /            ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    Coordinate(1, 0) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦             \\ X   +--+   +  ¦\n" +
+                                "¦            ¦          /     ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦             /            ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    Coordinate(2, 0) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦             \\     +--+   +  ¦\n" +
+                                "¦            ¦          / X   ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦             /            ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    Coordinate(0, 1) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦             \\     +--+   +  ¦\n" +
+                                "¦            ¦          /     ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦  X          /            ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    Coordinate(1, 1) -> {
+                        println("+------------+------+------+--+\n" +
+                                "¦            ¦      ¦      ¦  ¦\n" +
+                                "¦             \\     +--+   +  ¦\n" +
+                                "¦            ¦          /     ¦\n" +
+                                "¦            +---   ---+---+--+\n" +
+                                "+-----  -----+             ¦\n" +
+                                "¦             /       X    ¦\n" +
+                                "+--------xxx-+-------------+\n")
+                    }
+                    else -> {
+                        println("You are lost...")
+                    }
+                }
+            }
+            "ring" -> {
+                if (currentRoom.name == "The Town Square"){
+                    TownSquare.ringBell()
+                } else {
+                    narrate("There is no bell to ring in here.")
+                }
+            }
+            "mood" -> changeNarratorMood()
             "fight" -> fight()
             "cast" ->{
                 when (argument){
