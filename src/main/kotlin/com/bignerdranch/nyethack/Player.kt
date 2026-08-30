@@ -47,6 +47,10 @@ class Player(
         ).random()
     }
 
+    val inventory = mutableListOf<Loot>()
+
+    var gold = 0
+
     fun prophesize() {
         narrate("$name thinks about their future")
         narrate("A fortune teller told Madrigal, \"$prophecy\"")

@@ -3,7 +3,7 @@ package com.bignerdranch.nyethack
 open class Room(val name: String) {
 
     protected open val status = "Calm"
-
+    open val lootBox: LootBox<Loot> = LootBox.random()
 
     open fun description() = name
 
@@ -15,6 +15,8 @@ open class Room(val name: String) {
 open class TownSquare : Room("The town square"){
     private var bellSound = "GWONG"
     override val status = "Bustling"
+    val hatDropOffBox = DropOffBox<Hat>()
+    val gemDropOffBox = DropOffBox<Gemstones>()
 
     override fun enterRoom(){
         narrate("The villagers rally and cheer as the hero enters")
@@ -22,6 +24,16 @@ open class TownSquare : Room("The town square"){
     companion object{
         fun ringBell() {
             narrate("The bell tower announces the hero's presence: GWONG")
+        }
+    }
+
+    fun <T> sellLoot(
+        loot: T
+    ): Int where T : Loot, T : Sellable {
+        return when (loot) {
+            is Hat -> hatDropOffBox.sellLoot(loot)
+            is Gemstones -> gemDropOffBox.sellLoot(loot)
+            else -> 0
         }
     }
 }

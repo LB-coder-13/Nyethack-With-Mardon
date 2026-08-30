@@ -43,3 +43,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### MY CODE ###
+src/main/kotlin/com/bignerdranch/nyethack/Test.kt
