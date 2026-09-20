@@ -1,16 +1,62 @@
-import com.bignerdranch.nyethack.Fedora
-import com.bignerdranch.nyethack.Gemstones
-import com.bignerdranch.nyethack.Loot
-import com.bignerdranch.nyethack.LootBox
+import java.lang.reflect.InvocationHandler
+import java.lang.reflect.Proxy
 
+interface Repository{
+    fun fetchData(): String
+    fun save(data: String)
+}
+
+class RealRepository : Repository {
+    override fun fetchData() = "Data from db"
+    override fun save(data: String) { println("Saved $data") }
+
+}
+
+class LoggingProxyRepository(private val target: Repository) : Repository by target{
+    override fun fetchData(): String {
+        println("[LOG]: Request for data reading")
+        return target.fetchData()
+    }
+}
 
 fun main(){
-    var fedoraBox: LootBox<Fedora> = LootBox(Fedora("a generic-looking fedora", 15))
-    var lootBox: LootBox<Loot> = LootBox(Gemstones(150))
-    lootBox = fedoraBox
+    val rr = RealRepository()
+    val loggingProxyRepository = LoggingProxyRepository(rr)
+    println(loggingProxyRepository.fetchData())
 
+    val api = createDynamicProxy()
+    println(api.getUserName(42))
 
-    var fedora = Fedora("Hello", 12)
-    var loot: Loot = Gemstones( 43)
-    loot = fedora
 }
+
+interface ApiService {
+    fun getUserName(id: Int): String
+}
+
+fun createDynamicProxy(): ApiService{
+    // обработчик
+    val handler = InvocationHandler { proxy, method, args ->
+        println("Captured method: ${method.name}, args: ${args?.joinToString()}")
+
+        when (method.name){
+            "getUserName" -> "User ${args?.get(0)}"
+            else -> throw UnsupportedOperationException("Method is not supported")
+        }
+    }
+
+    return Proxy.newProxyInstance(
+        ApiService::class.java.classLoader,
+        arrayOf(ApiService::class.java),
+        handler
+    ) as ApiService
+}
+
+
+
+
+
+
+
+
+
+
