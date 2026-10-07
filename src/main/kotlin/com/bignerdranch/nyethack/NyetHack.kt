@@ -3,6 +3,8 @@ package com.bignerdranch.nyethack
 import kotlin.random.Random
 import kotlin.random.nextInt
 import kotlin.system.exitProcess
+import com.bignerdranch.nyethack.get
+import com.bignerdranch.nyethack.orEmptyRoom
 
 lateinit var player: Player // Я обязуюсь присвоить значение этой переменной до первой попытки обратиться к ней
 
@@ -51,8 +53,8 @@ object Game{
     }
 
     fun move(direction: Direction){
-        val newPosition = direction.updateCoordinate(currentPosition)
-        val newRoom = worldMap.getOrNull(newPosition.y)?.getOrNull(newPosition.x)
+        val newPosition = currentPosition move direction
+        val newRoom = worldMap[newPosition]
         if (newRoom != null) {
             narrate("The hero moves ${direction.name}")
             currentPosition = newPosition
