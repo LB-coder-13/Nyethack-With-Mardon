@@ -33,9 +33,20 @@ interface ApiService {
     fun getUserName(id: Int): String
 }
 
+class MyApi: ApiService{
+    override fun getUserName(id: Int): String {
+        return " что-то"
+    }
+
+    fun doSmt(){
+
+    }
+}
+
 fun createDynamicProxy(): ApiService{
     // обработчик
     val handler = InvocationHandler { proxy, method, args ->
+
         println("Captured method: ${method.name}, args: ${args?.joinToString()}")
 
         when (method.name){
@@ -45,9 +56,9 @@ fun createDynamicProxy(): ApiService{
     }
 
     return Proxy.newProxyInstance(
-        ApiService::class.java.classLoader,
-        arrayOf(ApiService::class.java),
-        handler
+        ApiService::class.java.classLoader, // место жительства
+        arrayOf(ApiService::class.java), // чем он является
+        handler  // что он делает
     ) as ApiService
 }
 
