@@ -18,3 +18,12 @@ operator fun List<List<Room>>.get(coordinate: Coordinate) = getOrNull(coordinate
 infix fun Coordinate.move(direction: Direction) = direction.updateCoordinate(this)
 
 fun Room?.orEmptyRoom(name: String = "the middle of nowhere"): Room = this ?: Room(name)
+
+fun String.frame(padding: Int, formatChar: String = "*"): String {
+    val middle = formatChar
+        .padEnd(padding)
+        .plus(this)
+        .plus(formatChar.padStart(padding))
+    val end = (0 until middle.length).joinToString("") { formatChar }
+    return "$end\n$middle\n$end"
+}
